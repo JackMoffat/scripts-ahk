@@ -1,2 +1,1 @@
 +CapsLock::CapsLock
-CapsLock::LShift
