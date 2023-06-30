@@ -13,6 +13,9 @@ ForEach-Object {
     # Change the working folder to the working copy
     Push-Location $workingCopy.FullName
 
+    # from chatgpt - update stuff first
+    git fetch --all --quiet
+
     # Update progress, as using -AutoSize on Format-Table
     # stops anything being written to the terminal until 
     # *all* processing is finished
