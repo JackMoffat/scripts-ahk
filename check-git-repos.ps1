@@ -4,7 +4,7 @@ $red = '31'
 $green = '32'
 
 # Get child folders of the current folder which contain a '.git' folder
-Get-ChildItem -Path . -Attributes Directory+Hidden -Recurse -Fiter '.git' | 
+Get-ChildItem -Path . -Attributes Directory+Hidden -Recurse -Filter '.git' | 
 ForEach-Object { 
     # Assume the parent folder of this .git folder is the working copy
     $workingCopy = $_.Parent
