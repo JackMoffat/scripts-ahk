@@ -13,12 +13,16 @@ ForEach-Object {
     # Change the working folder to the working copy
     Push-Location $workingCopy.FullName
 
-    # from chatgpt - update stuff first
+    # Fetch all updates from the remote repository
     git fetch --all --quiet
 
-    # Update progress, as using -AutoSize on Format-Table
-    # stops anything being written to the terminal until 
-    # *all* processing is finished
+    # Get the current branch name
+    $branchName = $(git rev-parse --abbrev-ref HEAD)
+
+    # Get the relationship with the remote branch
+    $branchStatus = $(git status -sb)
+
+    # Update progress
     Write-Progress `
         -Activity 'Check For Local Changes' `
         -Status 'Checking:' `
@@ -33,11 +37,8 @@ ForEach-Object {
         ? "$esc[$($red)mCHECK$esc[0m" `
         : "$esc[$($green)mOK$esc[0m"
 
-    # For some reason, the git status --porcelain output returns 
-    # two '?' chars for untracked changes, when all other statuses 
-    # are one character... this just cleans it up so that it's 
-    # nicer to scan visually in the terminal
-    $details = ($gitStatus -replace '\?\?', '?' | Out-String).TrimEnd()
+    # Prepare the branch information for the details
+    $details = "Branch: $branchName, Status: $branchStatus"
 
     # Change back to the original directory
     Pop-Location
@@ -50,3 +51,4 @@ ForEach-Object {
     }
 } |
 Format-Table -Wrap -AutoSize
+
